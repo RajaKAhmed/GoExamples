@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-// Number of philosophers is simply the length of this list.
-var ph = []string{"Mark", "Russell", "Rocky", "Haris", "Root"}
+// Number of Cryptos is simply the length of this list.
+var ph = []string{"BTC", "ETH", "ALGO", "LTC", "LUMEN"}
 
 const hunger = 3                // Number of times each philosopher eats
 const think = time.Second / 100 // Mean think time
@@ -29,23 +29,23 @@ func diningProblem(phName string, dominantHand, otherHand *sync.Mutex) {
 		time.Sleep(t/2 + time.Duration(rg.Int63n(int64(t))))
 	}
 	for h := hunger; h > 0; h-- {
-		fmt.Println(phName, "Hungry")
+		fmt.Println(phName, "Up")
 		dominantHand.Lock() // pick up forks
 		otherHand.Lock()
-		fmt.Println(phName, "Eating")
+		fmt.Println(phName, "Down")
 		rSleep(eat)
 		dominantHand.Unlock() // put down forks
 		otherHand.Unlock()
-		fmt.Println(phName, "Thinking")
+		fmt.Println(phName, "Sell")
 		rSleep(think)
 	}
 	fmt.Println(phName, "Satisfied")
 	dining.Done()
-	fmt.Println(phName, "Left the table")
+	fmt.Println(phName, "Sold Stock")
 }
 
 func main() {
-	fmt.Println("Table empty")
+	fmt.Println("Buy Stock")
 	dining.Add(5)
 	fork0 := &sync.Mutex{}
 	forkLeft := fork0
@@ -56,5 +56,5 @@ func main() {
 	}
 	go diningProblem(ph[0], fork0, forkLeft)
 	dining.Wait() // wait for philosphers to finish
-	fmt.Println("Table empty")
+	fmt.Println("Buy Stock")
 }
